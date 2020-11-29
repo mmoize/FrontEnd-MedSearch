@@ -1,0 +1,207 @@
+<ion-row>
+  <ion-col>
+    <ion-item lines="none">
+      <ion-button (click)="onLogout()" slot="start">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+      <ion-button color="primary" (click)="openHome()"  slot="end">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-col>
+</ion-row>
+
+
+
+<ion-content>
+
+  <ion-row style="padding: 10px;">
+    <ion-col size="12" size-sm="8" offset-sm= "2">
+      <ion-segment (ionChange)="segmentChanged($event)" [value]="segmentValue" color="primary" >
+        <ion-segment-button value="newMedication">
+          <ion-label *ngIf="NewMedicationSeg"    style="font-weight: bold;" >Add Medication</ion-label>
+         <ion-icon name="add-circle"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="currentMedication">
+          <ion-label *ngIf="CurrentMedicationSeg"  style="font-weight: bold;">Current Medication</ion-label>
+          <ion-icon name="file-tray-stacked"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="mostViewed">
+          <ion-label *ngIf="mostViewedSeg"  style="font-weight: bold;">Most Viewed</ion-label>
+          <ion-icon name="eye"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-col>
+  </ion-row>
+
+  <ion-grid *ngIf="NewMedicationSeg">
+
+    <ion-row  style="padding: 10px;">
+      <ion-col size ="12" size-sm="6" offset-sm ="3" >
+        <ion-row *ngIf="!addedImage" >
+          <ion-col size-sm="6" offset-sm="3">
+            <ion-card>
+              <ion-icon (click)="SelectImageSource()" id="ion-icons" src='assets/icon/add.svg'></ion-icon>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="selectedImage">
+      <ion-col size ="12" size-sm="6" offset-sm ="3">
+  
+        <ion-slides pager="true" [options]="slideOpts" >
+  
+          <ion-slide *ngFor="let photo of selectedImage">
+            <div id="touchedP" (click)="onClickProdImage()" class="slide">
+              <img id="touched" [src]="photo.image "/>
+            </div>
+            <div *ngIf="ClickedProdImage" (click)="onDelete(photo.id)" id="topplay">
+              <ion-button (click)="onDelete(photo.id)"  id="btnicon">
+                <ion-icon    color = "primary" id="trashicon" name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-slide>
+  
+        </ion-slides>
+        <!-- <ion-card *ngFor="let photo of selectedImage" >
+          <img [src]="photo "/>
+        </ion-card> -->
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="addedImage" >
+      <ion-col  size-sm="6" offset-sm="3">
+        <div style="text-align: center;" id="addpictCardcol">
+          <ion-item no-lines lines="none" id="addpictCard">
+            <ion-note slot="start" >Photos : {{ productPhotoCount }}</ion-note>
+            <ion-button id="btnicon" #fileInput (click)="SelectImageSource()">
+              <!-- <ion-icon  id="ion-icon-2" src='assets/icon/add.svg'></ion-icon> -->
+              <ion-icon color="primary" id="ion-icon-2" name="add-circle-sharp"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size ="12" size-sm="6" offset-sm ="3">
+        <form [formGroup]="form">
+          <ion-row>
+            <ion-col size-sm="6" offset-sm="3">
+              <ion-item>
+                <ion-label style="font-weight: bold;" position="floating">Medication Name</ion-label>
+                <ion-input type="text" autocomplete autocorrect formControlName="name"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size-sm="6" offset-sm="3">
+              <ion-item>
+                <ion-label style="font-weight: bold;" position="floating">Dose (mg)</ion-label>
+                <ion-input type="number" autocomplete autocorrect formControlName="dose"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size-sm="6" offset-sm="3">
+              <ion-item>
+                <ion-label style="font-weight: bold;" position="floating"> Number of Items  (Tablets)</ion-label>
+                <ion-input type="number" autocomplete autocorrect formControlName="number_of_items"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size-sm="6" offset-sm="3">
+              <ion-item>
+                <ion-label style="font-weight: bold;" position="floating" >Short Description</ion-label>
+                <ion-textarea rows="3" formControlName="description"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="!form.get('description').valid && form.get('description').touched">
+            <ion-col size-sm="6" offset-sm="3">
+              <p>Description must have 10-300 characters</p>
+            </ion-col>
+          </ion-row>
+      </form>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="savebtnCol" size ="12" size-sm="6" offset-sm ="3" text-center>
+          <!-- <ion-button  expand="block" color="primary">Save</ion-button> -->
+          <ion-button (click)="createProduct()"  shape="round" color="primary" >
+            <ion-icon slot="start" color="primary"  name="arrow-forward-circle-outline"></ion-icon>
+              Upload Medication
+          </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid *ngIf="CurrentMedicationSeg"  style="margin-top: 5rem;">
+    <ion-row>
+      <ion-col size ="12" size-sm="6" offset-sm ="3">
+       <ion-virtual-scroll style="height: 20vh;" *ngIf="loadedMedication"    [items]="loadedMedication" approxItemHeight="70px">
+ 
+         <ion-card style="margin-bottom: 1rem"  id="recentCard" *virtualItem="let medication" >
+           <ion-item-sliding #slidingItem id="item100">
+             <ion-item >     
+               <ion-thumbnail slot="start">
+                 <ion-img  [src]="medication.medicationimage_set[0].image"></ion-img>
+               </ion-thumbnail>
+             <ion-label>
+               <h2>{{ medication.name }}</h2>
+               <p>{{ medication.description }}</p>
+             </ion-label>
+             <ion-label slot="end">
+               <ion-note>
+                 {{ medication.dose }} (mg)
+               </ion-note>
+               <ion-note>
+                 {{ medication.number_of_items }} Tablets
+               </ion-note>
+               <!-- <p>
+                   <ion-icon name="eye-outline"></ion-icon>
+                   {{ post.viewcount }}
+               </p> -->
+             </ion-label>
+           </ion-item> 
+           <!-- <ion-item-options side="start">
+             <ion-item-option>
+               <ion-icon slot="icon-only" name="heart"></ion-icon>
+             </ion-item-option>
+           </ion-item-options> -->
+       
+           <ion-item-options side="end">
+             <ion-item-option   color="danger">
+               <h4  style="font-weight: bolder;">Remove</h4>
+               <!-- <ion-icon slot="icon-only" name="trash"></ion-icon> -->
+             </ion-item-option>
+             <!-- <ion-item-option>
+               <ion-icon slot="icon-only" name="star"></ion-icon>
+             </ion-item-option> -->
+           </ion-item-options>
+           </ion-item-sliding>
+         </ion-card>
+       
+       
+       
+         <!-- <ion-item
+         *virtualItem="let post"
+          detail>
+           <ion-thumbnail slot="start">
+             <ion-img  [src]="post.product[0].productimage_set[0].image"></ion-img>
+           </ion-thumbnail>
+           <ion-label>
+             <h2>{{ post.product[0].title }}</h2>
+             <p>{{ post.product[0].description }}</p>
+           </ion-label>
+         </ion-item> -->
+        </ion-virtual-scroll>
+       
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

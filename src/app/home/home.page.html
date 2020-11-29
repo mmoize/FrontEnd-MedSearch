@@ -1,0 +1,189 @@
+
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-button (click)="openDashBoard()" >
+        <ion-icon  style="width: 20px;height:20px"name="person-outline"></ion-icon>
+      </ion-button>
+      <!-- <ion-icon style="width: 30px;height:30px" name="log-in-outline"></ion-icon> -->
+      
+    </ion-col>
+  </ion-row>
+
+  <ion-grid *ngIf="loadedMedication"  style="margin-top: 2rem">
+    <ion-row id="rowsearch">
+      <ion-col size ="12" size-sm="4" offset-sm ="4" text-center>
+        <div id="divsearchInput">
+          <ion-searchbar [(ngModel)]="searchText" (ionFocus)="aboutTosearch()" (ionBlur)="aboutTosearch()"  (ionChange)="onSearchInput($event)"  (ionChange)="onSearchInput($event)"  [formControl]="searchControl"></ion-searchbar>
+        </div>
+      </ion-col>
+    </ion-row>
+  
+  </ion-grid>
+  <ion-grid *ngIf="!loadedMedication" style="margin-top: 13rem">
+    <ion-row id="rowsearch">
+      <ion-col size ="12" size-sm="4" offset-sm ="4" text-center>
+        <div id="divsearchInput">
+          <ion-searchbar [(ngModel)]="searchText"   (ionChange)="onSearchInput($event)"  [formControl]="searchControl"></ion-searchbar>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-row>
+    <ion-col  size ="12" size-sm="8" offset-sm ="2">
+      <ion-item lines="none">
+        <ion-buttons slot="start">
+          <!-- <ion-note (click)="onDisplayFilters()" style="font-weight: bold;" >category</ion-note> -->
+          <ion-button (click)="onDisplayFilters()" *ngIf="!onfilter">
+            <ion-icon   name="add-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="onfilter" (click)="onDisplayFilters()">
+            <ion-icon  color="primary"  name="add-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+      </ion-col>
+  </ion-row>
+  <ion-row *ngIf="onfilter" >
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-label style="font-weight: bold;" >Dose </ion-label>
+      <ion-item>
+        <ion-item slot="start" >
+          <ion-item slot="start">
+            <ion-label style="font-weight: bold;" position="floating">Min</ion-label>
+            <ion-input style="font-weight: bold;" [(ngModel)]="minDose" type="number"></ion-input>
+          </ion-item>
+          <ion-item slot="end">
+            <ion-label style="font-weight: bold;" position="floating">Max</ion-label>
+            <ion-input style="font-weight: bold;"  [(ngModel)]="maxDose" type="number"></ion-input>
+          </ion-item>
+        </ion-item>
+      </ion-item>
+    </ion-col>
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-label style="font-weight: bold;" >Number of Items  </ion-label>
+      <ion-item>
+        <ion-item slot="start" >
+          <ion-item slot="start">
+            <ion-label style="font-weight: bold;" position="floating">Min</ion-label>
+            <ion-input style="font-weight: bold;" [(ngModel)]="minNumberOfItems" type="number"></ion-input>
+          </ion-item>
+          <ion-item slot="end">
+            <ion-label style="font-weight: bold;" position="floating">Max</ion-label>
+            <ion-input style="font-weight: bold;" [(ngModel)]="maxNumberOfItems" type="number"></ion-input>
+          </ion-item>
+        </ion-item>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+ 
+
+ <ion-row text-center style="margin-top: 3rem;">
+  <ion-col size ="12" size-sm="4" offset-sm ="4" text-center>
+    <div id="divSpinner" *ngIf="searching" class="spinner-container">
+      <ion-spinner style="margin-left:50%;" color="primary" ></ion-spinner>
+    </div>
+ </ion-col>
+ </ion-row>
+
+
+ <ion-grid style="margin-top: 5rem;">
+   <ion-row>
+     <ion-col size ="12" size-sm="6" offset-sm ="3">
+      <ion-virtual-scroll style="height: 20vh;" *ngIf="loadedMedication"    [items]="loadedMedication" approxItemHeight="70px">
+
+        <ion-card (click)="onDetail(medication.id)" style="margin-bottom: 1rem"  id="recentCard" *virtualItem="let medication" >
+          <ion-item-sliding #slidingItem id="item100">
+            <ion-item >     
+              <ion-thumbnail slot="start">
+                <ion-img  [src]="medication.medicationimage_set[0].image"></ion-img>
+              </ion-thumbnail>
+            <ion-label>
+              <h2>{{ medication.name }}</h2>
+              <p>{{ medication.description }}</p>
+            </ion-label>
+            <ion-label slot="end">
+              <ion-note>
+                {{ medication.dose }} (mg)
+              </ion-note>
+              <ion-note>
+                {{ medication.number_of_items }} Tablets
+              </ion-note>
+              <!-- <p>
+                  <ion-icon name="eye-outline"></ion-icon>
+                  {{ post.viewcount }}
+              </p> -->
+            </ion-label>
+          </ion-item> 
+          <!-- <ion-item-options side="start">
+            <ion-item-option>
+              <ion-icon slot="icon-only" name="heart"></ion-icon>
+            </ion-item-option>
+          </ion-item-options> -->
+      
+          <ion-item-options side="end">
+            <ion-item-option   color="danger">
+              <h4  style="font-weight: bolder;">Remove</h4>
+              <!-- <ion-icon slot="icon-only" name="trash"></ion-icon> -->
+            </ion-item-option>
+            <!-- <ion-item-option>
+              <ion-icon slot="icon-only" name="star"></ion-icon>
+            </ion-item-option> -->
+          </ion-item-options>
+          </ion-item-sliding>
+        </ion-card>
+      
+      
+      
+        <!-- <ion-item
+        *virtualItem="let post"
+         detail>
+          <ion-thumbnail slot="start">
+            <ion-img  [src]="post.product[0].productimage_set[0].image"></ion-img>
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ post.product[0].title }}</h2>
+            <p>{{ post.product[0].description }}</p>
+          </ion-label>
+        </ion-item> -->
+       </ion-virtual-scroll>
+      
+     </ion-col>
+   </ion-row>
+ </ion-grid>
+
+ <ion-grid *ngIf="!aboutToSearch" style="margin-top: 2rem;">
+  <ion-row>
+    <ion-col size="12" size-sm="6" offset-sm ="3">
+      <ion-item lines="none">
+      <ion-label slot="start">
+        <ion-header >
+          <ion-title style="font-weight: bold;">
+            Popular Searches
+          </ion-title> 
+        </ion-header>
+      </ion-label>
+      </ion-item>
+    </ion-col>
+ </ion-row>
+  <ion-row>
+    <ion-col size ="12" size-sm="6" offset-sm ="3">
+     <ion-slides *ngIf="!aboutToSearch"   [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+       <ion-slide *ngFor="let medication of LoadedRecentMedication" style="width: 150px; height: 200px; border: 2px solid #f8f8f8">
+         <ion-card   > 
+              <img  id="touched" [src]="medication.medicationimage_set[0].image"/>
+              <ion-card-content>
+                            <ion-label>{{ medication.name }}</ion-label>
+                            <ion-label >
+                             <h3 >{{ medication.number_of_items }} Tablets</h3>
+                         </ion-label>
+              </ion-card-content >
+           </ion-card>
+       </ion-slide>
+     </ion-slides>
+    </ion-col>
+  </ion-row>
+ </ion-grid>
+
+</ion-content>

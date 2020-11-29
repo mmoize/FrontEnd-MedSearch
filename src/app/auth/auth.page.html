@@ -1,0 +1,23 @@
+<body>
+  <div  *ngIf="isLogin" class="login-page">
+    <div class="form">
+      <form  [formGroup]="form" class="login-form">
+        <input type="text" formControlName="username"  placeholder="username"/>
+        <input type="password" formControlName="password" placeholder="password"/>
+        <button (click)="onSubmit()">login</button>
+        <p class="message">Not registered? <a (click)="onSwitchAuthMode()">Create an account</a></p>
+      </form>
+    </div>
+  </div>
+  <div  *ngIf="!isLogin" class="login-page">
+    <div class="form">
+      <form  [formGroup]="form" class="login-form">
+        <input type="text" formControlName="username"  placeholder="name"/>
+        <input type="password" formControlName="password" placeholder="password"/>
+        <input type="text" formControlName="email" placeholder="email address"/>
+        <button (click)="onSubmit()">create</button>
+        <p class="message">Already registered? <a (click)="onSwitchAuthMode()">Sign In</a></p>
+      </form>
+    </div>
+  </div>
+</body>

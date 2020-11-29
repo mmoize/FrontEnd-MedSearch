@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="primary" >
+      <ion-item color="transparent"  lines="none">
+        <ion-buttons  color="transparent"  slot="start">
+          <ion-back-button  ></ion-back-button>
+        </ion-buttons>
+      </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid >
+    <ion-row *ngIf="loadedMedication" >
+      <ion-col size ="12" size-sm="4" offset-sm ="4">
+        <ion-card>
+          <ion-slides class="ionSlides" pager="true" [options]="slideOpts" >
+            <ion-slide style="border-top-right-radius: 10px;border-top-left-radius: 10px;" *ngFor="let item of loadedMedication[0]?.medicationimage_set">
+               <ion-img                
+               [title]="loadedMedication[0]?.name" 
+               [text]="loadedMedication[0]?.user.username" 
+               scheme="dark"  
+               class="thumb-img"
+               ionImgViewer 
+               style="border-top-bottom-radius: 10px;border-bottom-left-radius: 10px;"
+               [src]="item.image"></ion-img>
+            </ion-slide> 
+          </ion-slides>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    
+
+    <ion-row *ngIf="loadedMedication">
+      <ion-col size ="12" size-sm="4" offset-sm ="4">
+        <ion-card>
+          <ion-card-title>
+            <ion-title>{{  loadedMedication[0]?.name }}</ion-title>
+            <!-- <ion-label class="itemlabelData">{{  loadedMedication[0]?.name }}</ion-label> -->
+          </ion-card-title>
+          <ion-card-content>
+              <ion-item lines="none">
+                <ion-label slot="start">{{loadedMedication[0]?.number_of_items}} Tablets</ion-label>
+                <ion-label slot="end">{{loadedMedication[0]?.dose}} (Mg)</ion-label>
+              </ion-item>
+              <ion-list>
+                <ion-list-header>
+                  <ion-label>Description</ion-label>
+                </ion-list-header>
+                <ion-item lines="none">
+                  <ion-note>{{loadedMedication[0]?.description}}</ion-note>
+                </ion-item>
+              </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
+

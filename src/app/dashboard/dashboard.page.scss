@@ -1,0 +1,109 @@
+#ion-icons {
+    font-size: 100px; //Preferred size here
+}
+
+#addpictCard{
+    border: transparent;
+    text-align: center;
+    align-items: center;
+}
+
+ion-card {
+    align-items: center;
+    text-align: center;
+    border: transparent;
+}
+
+ion-note {
+    font-weight: bold;
+}
+
+#ion-icon-2 {
+    font-size: 35px; 
+}
+
+#trashicon {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+
+
+#addpictCardcol {
+    align-items: center;
+    text-align: center;
+}
+
+#btnicon {
+    background-color: transparent;
+    background: transparent;
+    --background: transparent;
+    --border: transparent;
+    --border-color: transparent;
+    --box-shadow: transparent;
+
+}
+
+#touchedP {
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+}
+
+#topplay {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    position: absolute;
+    
+}
+
+
+ion-button {
+    --background: transparent;
+    color: rgb(39, 37, 37);
+    font-weight: bolder;
+    font-size: large;
+    
+}
+
+
+#btmgrid {
+    margin-top: 25px;
+}
+
+.pin {
+    display: inline-block;
+    margin: 0 5px 5px;
+    padding: 5px;
+  }
+  
+  .pins {
+    column-count: 2;
+    margin-top: 5px;
+  }
+
+
+  .firstlayer {
+      border: 4px;
+      border-color: darkviolet;
+      overflow: hidden;
+      text-align: center;
+      position: relative;
+  }
+
+  #toplay{
+    position: absolute;
+    top: 0;
+    margin: 0;
+    position: absolute;
+    //top: 78%;
+    //right: 50%;
+    //margin-right: -50%;
+    // transform: translate(-50%, -50%);  
+}
+
+.savebtnCol {
+    text-align: center;
+    align-items: center;
+}
