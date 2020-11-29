@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
+  onEmptyResults = false;
+
   private medicationSub: Subscription;
 
   minDose = 'None';
@@ -49,6 +51,7 @@ export class HomePage implements OnInit {
                 this.searchControl = new FormControl();
                 this.onSearch();
                 this.loadRecentMedication();
+                this.loadedMedication = [];
                 
               }
   ngOnInit(){
@@ -98,6 +101,18 @@ export class HomePage implements OnInit {
 
         if (resData.length >= 0) {
           this.medicationSub = this.medicationService.medicationResults.subscribe(resultsData => {
+
+            if (resultsData.length <=0) {
+
+              this.onEmptyResults = true;
+
+              setTimeout(() => {
+                this.onEmptyResults = false;
+              }, 5000);
+
+              this.loadedMedication = [];
+              console.log('this emp', resultsData);
+            }
             this.loadedMedication = resultsData;
             console.log('First Results', resultsData);
             this.searching = false;
